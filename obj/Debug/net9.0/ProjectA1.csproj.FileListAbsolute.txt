@@ -1,0 +1,14 @@
+/Users/gleb/Desktop/MyProjects/ProjectA1/bin/Debug/net9.0/ProjectA1
+/Users/gleb/Desktop/MyProjects/ProjectA1/bin/Debug/net9.0/ProjectA1.deps.json
+/Users/gleb/Desktop/MyProjects/ProjectA1/bin/Debug/net9.0/ProjectA1.runtimeconfig.json
+/Users/gleb/Desktop/MyProjects/ProjectA1/bin/Debug/net9.0/ProjectA1.dll
+/Users/gleb/Desktop/MyProjects/ProjectA1/bin/Debug/net9.0/ProjectA1.pdb
+/Users/gleb/Desktop/MyProjects/ProjectA1/obj/Debug/net9.0/ProjectA1.GeneratedMSBuildEditorConfig.editorconfig
+/Users/gleb/Desktop/MyProjects/ProjectA1/obj/Debug/net9.0/ProjectA1.AssemblyInfoInputs.cache
+/Users/gleb/Desktop/MyProjects/ProjectA1/obj/Debug/net9.0/ProjectA1.AssemblyInfo.cs
+/Users/gleb/Desktop/MyProjects/ProjectA1/obj/Debug/net9.0/ProjectA1.csproj.CoreCompileInputs.cache
+/Users/gleb/Desktop/MyProjects/ProjectA1/obj/Debug/net9.0/ProjectA1.dll
+/Users/gleb/Desktop/MyProjects/ProjectA1/obj/Debug/net9.0/refint/ProjectA1.dll
+/Users/gleb/Desktop/MyProjects/ProjectA1/obj/Debug/net9.0/ProjectA1.pdb
+/Users/gleb/Desktop/MyProjects/ProjectA1/obj/Debug/net9.0/ProjectA1.genruntimeconfig.cache
+/Users/gleb/Desktop/MyProjects/ProjectA1/obj/Debug/net9.0/ref/ProjectA1.dll
