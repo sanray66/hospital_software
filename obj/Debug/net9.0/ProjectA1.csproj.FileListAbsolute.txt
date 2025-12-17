@@ -12,3 +12,4 @@
 /Users/gleb/Desktop/MyProjects/ProjectA1/obj/Debug/net9.0/ProjectA1.pdb
 /Users/gleb/Desktop/MyProjects/ProjectA1/obj/Debug/net9.0/ProjectA1.genruntimeconfig.cache
 /Users/gleb/Desktop/MyProjects/ProjectA1/obj/Debug/net9.0/ref/ProjectA1.dll
+/Users/gleb/Desktop/MyProjects/ProjectA1/obj/Debug/net9.0/ProjectA1.sourcelink.json
