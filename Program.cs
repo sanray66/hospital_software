@@ -10,7 +10,6 @@ namespace ProjectA1
 
     internal class Program
     {
-        // мое дополнение
         static int Authorization()
         {
             Console.WriteLine("________Панель урпавления Больницы__________");
@@ -24,175 +23,183 @@ namespace ProjectA1
             return roleNumber;
         }
 
-static void ShowPatientInfo(string filepath, int roleNumber)
-{
-    while (true)
-    {
-        Console.Clear();
-        SetNormalColors();
-        
-        if (!File.Exists(filepath))
+        static void ShowPatientInfo(string filepath, int roleNumber)
         {
-            Console.WriteLine($"Файл не найден!");
-            Console.ReadKey();
-            return;
-        }
-
-        // Читаем файл
-        string[] lines = File.ReadAllLines(filepath);
-        
-        Console.WriteLine("===========ИНФОРМАЦИЯ===========");
-        
-        // Показываем все строки
-        foreach (string line in lines)
-        {
-            Console.WriteLine(line);
-        }
-        
-        Console.WriteLine("=================================");
-
-        // Показываем меню
-        if (roleNumber == 1) // Главный врач
-        {
-            Console.WriteLine("\n[1-6] Изменить поле");
-            Console.WriteLine("[Esc] Назад к списку");
-            
-            ConsoleKeyInfo key = Console.ReadKey(true);
-            
-            if (key.Key == ConsoleKey.Escape)
+            while (true)
             {
-                return; // выходим из метода
-            }
-            else if (key.Key >= ConsoleKey.D1 && key.Key <= ConsoleKey.D6)
-            {
-                int fieldNumber = (int)key.Key - (int)ConsoleKey.D1 + 1;
+                Console.Clear();
+                SetNormalColors();
+
+            
+                string[] lines = File.ReadAllLines(filepath);
                 
-                // Находим строку с этим номером
-                for (int i = 0; i < lines.Length; i++)
+                Console.WriteLine("===========ИНФОРМАЦИЯ===========");
+                
+            
+                foreach (string line in lines)
                 {
-                    if (lines[i].StartsWith($"({fieldNumber})"))
+                    Console.WriteLine(line);
+                }
+                
+                Console.WriteLine("=================================");
+
+                // Показываем меню
+                if (roleNumber == 1) // Главный врач
+                {
+                    Console.WriteLine("\n[1-6] Изменить поле");
+                    Console.WriteLine("[Esc] Назад к списку");
+                    
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+                    
+                    if (key.Key == ConsoleKey.Escape)
+                    {
+                        return; 
+                    }
+                    else if (key.Key >= ConsoleKey.D1 && key.Key <= ConsoleKey.D6)
+                    {
+                        int fieldNumber;
+                        switch (key.Key)
+                        {
+                            case ConsoleKey.D1: fieldNumber = 1; break;
+                            case ConsoleKey.D2: fieldNumber = 2; break;
+                            case ConsoleKey.D3: fieldNumber = 3; break;
+                            case ConsoleKey.D4: fieldNumber = 4; break;
+                            case ConsoleKey.D5: fieldNumber = 5; break;
+                            case ConsoleKey.D6: fieldNumber = 6; break;
+                            default: fieldNumber = 0; break;
+                        }
+                                                
+                        // Находим строку с этим номером
+                        for (int i = 0; i < lines.Length; i++)
+                        {
+                            if (lines[i].StartsWith($"({fieldNumber})"))
+                            {
+                                Console.Clear();
+                                Console.WriteLine($"Текущее значение: {lines[i]}");
+                                Console.Write("Введите новое значение: ");
+                                string newValue = Console.ReadLine();
+                                
+                                string[] parts = lines[i].Split(':');
+                                
+                                lines[i] = parts[0] + ": " + newValue;
+                                
+                                File.WriteAllLines(filepath, lines);
+                                
+                                Console.WriteLine("Изменения сохранены! Нажмите любую клавишу");
+                                Console.ReadKey();
+                                
+                                break;
+                            }
+                        }
+                    }
+                }
+                else if (roleNumber == 2) // Регистратура
+                {
+                    Console.WriteLine("\n[Enter] Выдать талон");
+                    Console.WriteLine("[Esc] Назад к списку");
+                    
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+                    
+                    if (key.Key == ConsoleKey.Escape)
+                    {
+                        return;
+                    }
+                    else if (key.Key == ConsoleKey.Enter)
                     {
                         Console.Clear();
-                        Console.WriteLine($"Текущее значение: {lines[i]}");
-                        Console.Write("Введите новое значение (всю строку): ");
-                        string newValue = Console.ReadLine();
+                        Console.WriteLine("ВЫДАЧА ТАЛОНА");
                         
-                        // ПРОСТАЯ ЗАМЕНА - меняем всю строку
-                        lines[i] = newValue;
+                        Console.Write("Введите дату приема (дд.мм.гггг): ");
+                        string date = Console.ReadLine();
                         
-                        // Сохраняем в файл
-                        File.WriteAllLines(filepath, lines);
+                        Console.Write("Введите время приема (чч:мм): ");
+                        string time = Console.ReadLine();
                         
-                        Console.WriteLine("Изменения сохранены! Нажмите любую клавишу...");
+                        // Читаем информацию о пациенте из файла
+                        string[] patientInfo = File.ReadAllLines(filepath);
+                        string patientName = patientInfo[0].Replace("(1) ФИО: ", "");
+                        
+                        Console.WriteLine($"\nТалон выдан пациенту: {patientName}");
+                        Console.WriteLine($"Дата: {date}");
+                        Console.WriteLine($"Время: {time}");
+
+                        Random generator = new Random();
+                        int ticketNumber = generator.Next(1000, 9999);
+                        Console.WriteLine("Номер талона: " + ticketNumber);
+                        
+                        Console.WriteLine("\nНажмите любую клавишу");
                         Console.ReadKey();
+                    }
+                }
+                else if (roleNumber == 3) // Врач
+                {
+                    Console.WriteLine("\n[Enter] Добавить запись о посещении");
+                    Console.WriteLine("[Esc] Назад к списку");
+                    
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+                    
+                    if (key.Key == ConsoleKey.Escape)
+                    {
+                        return;
+                    }
+                    else if (key.Key == ConsoleKey.Enter)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("ДОБАВЛЕНИЕ ЗАПИСИ О ПОСЕЩЕНИИ");
                         
-                        // После сохранения выходим из цикла for
-                        break;
+                        Console.Write("Дата (дд.мм.гггг): ");
+                        string date = Console.ReadLine();
+                        
+                        Console.Write("Жалобы: ");
+                        string complaints = Console.ReadLine();
+                        
+                        Console.Write("Диагноз: ");
+                        string diagnosis = Console.ReadLine();
+                        
+                        Console.Write("Назначения: ");
+                        string prescription = Console.ReadLine();
+                        
+                        Console.Write("Больничный (да/нет): ");
+                        string sickLeave = Console.ReadLine();
+                        
+                        string sickLeaveDays = "";
+                        if (sickLeave == "да" || sickLeave == "Да" || sickLeave == "ДА")
+                        {
+                            Console.Write("Срок больничного: ");
+                            sickLeaveDays = Console.ReadLine();
+                        }
+                        
+                        Console.Write("ФИО врача: ");
+                        string doctor = Console.ReadLine();
+                        
+                        string newVisit = "1) Дата: " + date;
+                        newVisit += "\n   Жалобы: " + complaints;
+                        newVisit += "\n   Диагноз: " + diagnosis;
+                        newVisit += "\n   Назначения: " + prescription;
+                        newVisit += "\n   Больничный: " + sickLeave;
+                        
+                        if (sickLeave == "да" || sickLeave == "Да" || sickLeave == "ДА")
+                        {
+                            newVisit += "\n   Срок больничного: " + sickLeaveDays;
+                        }
+                        
+                        newVisit += "\n   Врач: " + doctor;
+                        
+                        FileStream fs = new FileStream(filepath, FileMode.Append);
+                        StreamWriter sw = new StreamWriter(fs);
+                        
+                        sw.WriteLine(); 
+                        sw.WriteLine(newVisit);
+                        
+                        sw.Close();
+                        fs.Close();
+                        
+                        Console.WriteLine("\nЗапись добавлена! Нажмите любую клавишу");
+                        Console.ReadKey();
                     }
                 }
             }
         }
-        else if (roleNumber == 2) // Регистратура
-        {
-            Console.WriteLine("\n[Enter] Выдать талон");
-            Console.WriteLine("[Esc] Назад к списку");
-            
-            ConsoleKeyInfo key = Console.ReadKey(true);
-            
-            if (key.Key == ConsoleKey.Escape)
-            {
-                return;
-            }
-            else if (key.Key == ConsoleKey.Enter)
-            {
-                Console.Clear();
-                Console.WriteLine("ВЫДАЧА ТАЛОНА");
-                
-                Console.Write("Введите дату приема (дд.мм.гггг): ");
-                string date = Console.ReadLine();
-                
-                Console.Write("Введите время приема (чч:мм): ");
-                string time = Console.ReadLine();
-                
-                // Читаем информацию о пациенте из файла
-                string[] patientInfo = File.ReadAllLines(filepath);
-                string patientName = patientInfo[0].Replace("(1) ФИО: ", "");
-                
-                Console.WriteLine($"\nТалон выдан пациенту: {patientName}");
-                Console.WriteLine($"Дата: {date}");
-                Console.WriteLine($"Время: {time}");
-                Console.WriteLine($"Номер талона: {new Random().Next(1000, 9999)}");
-                
-                Console.WriteLine("\nНажмите любую клавишу...");
-                Console.ReadKey();
-            }
-        }
-        else if (roleNumber == 3) // Врач
-        {
-            Console.WriteLine("\n[Enter] Добавить запись о посещении");
-            Console.WriteLine("[Esc] Назад к списку");
-            
-            ConsoleKeyInfo key = Console.ReadKey(true);
-            
-            if (key.Key == ConsoleKey.Escape)
-            {
-                return;
-            }
-            else if (key.Key == ConsoleKey.Enter)
-            {
-                Console.Clear();
-                Console.WriteLine("ДОБАВЛЕНИЕ ЗАПИСИ О ПОСЕЩЕНИИ");
-                
-                Console.Write("Дата (дд.мм.гггг): ");
-                string date = Console.ReadLine();
-                
-                Console.Write("Жалобы: ");
-                string complaints = Console.ReadLine();
-                
-                Console.Write("Диагноз: ");
-                string diagnosis = Console.ReadLine();
-                
-                Console.Write("Назначения: ");
-                string prescription = Console.ReadLine();
-                
-                Console.Write("Больничный (да/нет): ");
-                string sickLeave = Console.ReadLine();
-                
-                string sickLeaveDays = "";
-                if (sickLeave.ToLower() == "да")
-                {
-                    Console.Write("Срок больничного (с-по): ");
-                    sickLeaveDays = Console.ReadLine();
-                }
-                
-                Console.Write("ФИО врача: ");
-                string doctor = Console.ReadLine();
-                
-                // Формируем новую запись
-                string newVisit = $"{lines.Length - 5}) Дата: {date}";
-                newVisit += $"\n   Жалобы: {complaints}";
-                newVisit += $"\n   Диагноз: {diagnosis}";
-                newVisit += $"\n   Назначения: {prescription}";
-                newVisit += $"\n   Больничный: {sickLeave}";
-                
-                if (sickLeave.ToLower() == "да")
-                {
-                    newVisit += $"\n   Срок больничного: {sickLeaveDays}";
-                }
-                
-                newVisit += $"\n   Врач: {doctor}";
-                
-                // Добавляем запись в конец файла
-                List<string> newLines = new List<string>(lines);
-                newLines.Add(newVisit);
-                File.WriteAllLines(filepath, newLines);
-                
-                Console.WriteLine("\nЗапись добавлена! Нажмите любую клавишу...");
-                Console.ReadKey();
-            }
-        }
-    }
-}
         
         
         static void OutputResult(int roleNumber)
@@ -296,7 +303,7 @@ static void ShowPatientInfo(string filepath, int roleNumber)
                     case "Участки":
                         filepath = $"DB/Areas/{selectFileNumber}.txt";
                         break;
-                    case "Мои пациенты": // ДОБАВЬ ЭТО
+                    case "Мои пациенты": 
                         filepath = $"DB/Patients/{selectFileNumber}.txt";
                         break;
                 }
@@ -313,7 +320,7 @@ static void ShowPatientInfo(string filepath, int roleNumber)
         }
 
 
-        // мое дополнение
+        
         static void DrawRectangleQuick(int x, int y, int width, int height)
         {
             Console.CursorVisible = false;
@@ -353,7 +360,6 @@ static void ShowPatientInfo(string filepath, int roleNumber)
                 Console.SetCursorPosition(x, y + i);
                 Console.WriteLine(items[i]);
             }
-            // один элемент покрасим
             Console.BackgroundColor = ConsoleColor.Red;
             Console.ForegroundColor = ConsoleColor.White;
             Console.SetCursorPosition(x, y + selectedIndex);
@@ -376,9 +382,7 @@ static void ShowPatientInfo(string filepath, int roleNumber)
 
                 Console.SetCursorPosition(x, y + items.Length + 2);
                 Console.WriteLine("[Enter] Выбрать  [Esc] Назад к категориям");
-                // ждём и считываем 1 кнопку
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
-                // посмотреть что за кнопка и выполнить действия
                 switch (keyInfo.Key)
                 {
                     case ConsoleKey.Enter:
@@ -538,9 +542,7 @@ static void ShowPatientInfo(string filepath, int roleNumber)
             
             // вызываем авторизацию 
             int roleNumber = Authorization();
-            // выводим таблицу с данными в зависимотсти от должности 
             OutputResult(roleNumber);
-            // даем информацию чтобы вывеси картачку поциекта         
 
 
 
